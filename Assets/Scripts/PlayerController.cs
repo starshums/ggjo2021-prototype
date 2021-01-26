@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         Movement();
+        Shoot();
     }
 
     void Movement()
@@ -30,7 +31,12 @@ public class PlayerController : MonoBehaviour
         movement = new Vector3(movHor, 0, movVer);
         rb.velocity = movement * Time.deltaTime * speed;
         //rb.AddForce(movement * Time.fixedDeltaTime * speed, ForceMode.Impulse);
-
-        
+    }
+    void Shoot()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            //Throw Bomb
+        }
     }
 }
