@@ -28,6 +28,14 @@ public class PlayerController : MonoBehaviour
         ThrowBomb();
     }
 
+    void Jump()
+    {
+        if (Input.GetButtonDown("Jump"))
+        {
+            
+        }
+    }
+
     void Movement()
     {
         movHor = Input.GetAxis("Horizontal");
@@ -38,7 +46,7 @@ public class PlayerController : MonoBehaviour
     }
     void ThrowBomb()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetButtonDown("Bomb"))
         {
             //Throw Bomb
             GameObject bomb = Instantiate(bombPrefab, bombSpawnLocation.position, bombSpawnLocation.rotation);
