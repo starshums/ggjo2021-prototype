@@ -4,13 +4,17 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Player Movement Settings")]
     float movHor;
     float movVer;
     Vector3 movement;
     Rigidbody rb;
-    [SerializeField] float speed = 1000f;
+    [SerializeField] float speed = 10;
 
-
+    [Header("Bomb Settings")]
+    public GameObject bombPrefab;
+    public Transform bombSpawnLocation;
+    [SerializeField] float bombThrowForce = 350f;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,7 +25,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         Movement();
-        Shoot();
+        ThrowBomb();
     }
 
     void Movement()
@@ -29,14 +33,20 @@ public class PlayerController : MonoBehaviour
         movHor = Input.GetAxis("Horizontal");
         movVer = Input.GetAxis("Vertical");
         movement = new Vector3(movHor, 0, movVer);
-        rb.velocity = movement * Time.deltaTime * speed;
+        rb.velocity = movement * speed;
         //rb.AddForce(movement * Time.fixedDeltaTime * speed, ForceMode.Impulse);
     }
-    void Shoot()
+    void ThrowBomb()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
             //Throw Bomb
+            GameObject bomb = Instantiate(bombPrefab, bombSpawnLocation.position, bombSpawnLocation.rotation);
+            Rigidbody rb = bomb.GetComponent<Rigidbody>();
+            if(rb != null)
+            {
+                rb.AddForce(bombSpawnLocation.forward * bombThrowForce);
+            }
         }
     }
 }
