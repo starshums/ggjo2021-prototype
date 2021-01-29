@@ -171,7 +171,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 15
   playerModel: {fileID: 1777964369}
-  bombPrefab: {fileID: 6182160531386536975, guid: ca8169dac9c2923428c63f238c360f05, type: 3}
+  fireBombPrefab: {fileID: 6182160531386536975, guid: ca8169dac9c2923428c63f238c360f05, type: 3}
+  freezeBombPrefab: {fileID: 6182160531386536975, guid: e19aa170e6f8cc14680be1826d4ecee9, type: 3}
   bombSpawnLocation: {fileID: 1717618766}
   bombThrowForce: 350
 --- !u!65 &387686438
