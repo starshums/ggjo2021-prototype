@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
     [Header ("Player Movement Settings")]
-    float movHor;
-    float movVer;
-    Vector3 movement;
-    Rigidbody rb;
-    [SerializeField] float speed = 10;
+    private Vector3 moveDirection;
+    [SerializeField] float speed = 10f;
+    private CharacterController controller;
     Animator animator;
+    public GameObject playerModel;
 
     [Header ("Bomb Settings")]
     public GameObject bombPrefab;
@@ -18,7 +17,7 @@ public class PlayerController : MonoBehaviour {
 
     // Start is called before the first frame update
     void Start () {
-        rb = GetComponent<Rigidbody> ();
+        controller = GetComponent<CharacterController>();
         animator = GetComponentInChildren<Animator> ();
     }
 
@@ -35,14 +34,21 @@ public class PlayerController : MonoBehaviour {
     }
 
     void Movement () {
-        movHor = Input.GetAxis ("Horizontal");
-        movVer = Input.GetAxis ("Vertical");
-        movement = new Vector3 (movHor, 0, movVer);
-        rb.velocity = movement * speed;
-        //rb.AddForce(movement * Time.fixedDeltaTime * speed, ForceMode.Impulse);
+        moveDirection = (transform.forward * Input.GetAxis("Vertical")) + (transform.right * Input.GetAxis("Horizontal"));
+		moveDirection = moveDirection.normalized * speed;
+        
+		moveDirection.y += Physics.gravity.y * Time.deltaTime;
+		controller.Move( moveDirection * Time.deltaTime );
 
-        // ~ for animation testing!
-        animator.SetFloat ("Speed", (Mathf.Abs (Input.GetAxis ("Vertical")) + Mathf.Abs (Input.GetAxis ("Horizontal"))));
+        // Move player in different directions
+		if (Input.GetAxis ("Vertical") != 0 || Input.GetAxis ("Horizontal") != 0) {
+			// transform.rotation = Quaternion.Euler(0f, target.rotation.eulerAngles.y, 0f);
+			Quaternion rotatePlayer = Quaternion.LookRotation (new Vector3 (moveDirection.x, 0f, moveDirection.z));
+			playerModel.transform.rotation = Quaternion.Slerp(playerModel.transform.rotation, rotatePlayer, 0.3f);
+		}
+
+        // Running & Idle Animations
+        animator.SetFloat("Speed", (Mathf.Abs(Input.GetAxis ("Vertical")) + Mathf.Abs(Input.GetAxis ("Horizontal"))));
     }
 
     void ThrowBomb () {
