@@ -42,7 +42,6 @@ public class PlayerController : MonoBehaviour {
 
         // Move player in different directions
 		if (Input.GetAxis ("Vertical") != 0 || Input.GetAxis ("Horizontal") != 0) {
-			// transform.rotation = Quaternion.Euler(0f, target.rotation.eulerAngles.y, 0f);
 			Quaternion rotatePlayer = Quaternion.LookRotation (new Vector3 (moveDirection.x, 0f, moveDirection.z));
 			playerModel.transform.rotation = Quaternion.Slerp(playerModel.transform.rotation, rotatePlayer, 0.3f);
 		}
@@ -55,7 +54,7 @@ public class PlayerController : MonoBehaviour {
         if (Input.GetButtonDown ("Bomb")) {
             //Throw Bomb
             animator.SetTrigger ("Attacking");
-            GameObject bomb = Instantiate (bombPrefab, bombSpawnLocation.position, bombSpawnLocation.rotation);
+            GameObject bomb = Instantiate (bombPrefab, bombSpawnLocation.position, transform.rotation);
             Rigidbody rb = bomb.GetComponent<Rigidbody> ();
             if (rb != null) {
                 rb.AddForce (bombSpawnLocation.forward * bombThrowForce);
