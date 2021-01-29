@@ -29,7 +29,6 @@ public class Battery : MonoBehaviour
 
     }
 
- 
     void Update()
     {
         //using sine , make the battery move up and down 
