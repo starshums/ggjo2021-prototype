@@ -32,7 +32,7 @@ public class Bomb : MonoBehaviour
     void Explode()
     {
         //Show effect
-        Instantiate(explosionEffect, transform.position, transform.rotation);
+        Instantiate(explosionEffect, new Vector3(transform.position.x, transform.position.y+3f, transform.position.z), transform.rotation);
         
         //get nearby objects
         Collider[] nearbyObjectsColliders = Physics.OverlapSphere(transform.position, radius);
