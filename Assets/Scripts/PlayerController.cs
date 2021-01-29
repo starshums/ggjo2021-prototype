@@ -11,7 +11,9 @@ public class PlayerController : MonoBehaviour {
     public GameObject playerModel;
 
     [Header ("Bomb Settings")]
-    public GameObject bombPrefab;
+    public GameObject fireBombPrefab;
+    public GameObject freezeBombPrefab;
+
     public Transform bombSpawnLocation;
     [SerializeField] float bombThrowForce = 350f;
 
@@ -51,13 +53,26 @@ public class PlayerController : MonoBehaviour {
     }
 
     void ThrowBomb () {
-        if (Input.GetButtonDown ("Bomb")) {
-            //Throw Bomb
-            animator.SetTrigger ("Attacking");
-            GameObject bomb = Instantiate (bombPrefab, bombSpawnLocation.position, transform.rotation);
-            Rigidbody rb = bomb.GetComponent<Rigidbody> ();
-            if (rb != null) {
-                rb.AddForce (bombSpawnLocation.forward * bombThrowForce);
+
+        GameObject bombToThrow = null;
+
+        if (Input.GetButtonDown ("Bomb")) 
+        {
+            bombToThrow = fireBombPrefab;
+        }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            bombToThrow = freezeBombPrefab;
+        }
+
+        if (bombToThrow != null)
+        {
+            animator.SetTrigger("Attacking");
+            GameObject bomb = Instantiate(bombToThrow, bombSpawnLocation.position, transform.rotation);
+            Rigidbody rb = bomb.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.AddForce(bombSpawnLocation.forward * bombThrowForce);
             }
         }
     }
